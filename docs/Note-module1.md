@@ -1,6 +1,8 @@
-**Notatki do modułu 1:**
+# Notatki do modułu 1
 
-- GCP docelowo ma wszystkie serwisy wyłączone. Nim zacznie się wdrażanie czegokolwiek, należy je podpiąć, przykładowo tak jak poniżej:
+### 1. Włączenie wymaganych serwisów GCP
+
+GCP docelowo ma wszystkie serwisy wyłączone. Nim zacznie się wdrażanie czegokolwiek, należy je podpiąć, przykładowo tak jak poniżej:
 
 ```powershell
 gcloud services enable `
@@ -12,10 +14,66 @@ gcloud services enable `
   serviceusage.googleapis.com
 ```
 
-
-- sprawdzenie aktywnego projektu w GCP:
+### 2. Sprawdzenie aktywnego projektu w GCP
 
 ```powershell
 gcloud config get-value project
 ```
 
+### 3. Utworzenie bucketu
+
+```powershell
+gcloud storage buckets create `
+  gs://tfstate-lbobak-gcp-platform-lab-dev `
+  --location=europe-central2 `
+  --uniform-bucket-level-access
+```
+
+### 4. Włączenie versioningu i weryfikacja konfiguracji
+
+Włączenie versioningu:
+
+```powershell
+gcloud storage buckets update `
+  gs://tfstate-lbobak-gcp-platform-lab-dev `
+  --versioning
+```
+
+Weryfikacja konfiguracji:
+
+```powershell
+gcloud storage buckets describe `
+  gs://tfstate-lbobak-gcp-platform-lab-dev
+```
+
+Gdy versioning jest włączony, widoczny będzie wpis:
+
+```text
+versioning_enabled: true
+```
+
+Jest to ważne, ponieważ jeśli `terraform apply` uszkodzi plik state lub ktoś go nadpisze, GCS przechowuje starsze wersje obiektu. Dzięki temu możliwe jest odzyskanie wcześniejszej wersji stanu Terraform. W praktyce stanowi to mechanizm backupu dla Terraform State.
+
+```text
+Po wykonaniu powyższych kroków skonfigurowane będą:
+
+- Projekt GCP
+- Billing
+- Terraform State Bucket
+- Versioning
+- Uniform Access
+```
+
+### 5. Konfiguracja pierwszych plików Terraform-owych
+
+- Pliki są widoczne w:
+
+```text
+infra/environments/dev/<plik>.tf
+
+oraz
+
+infra/modules/service_accounts/<plik>.tf
+```
+
+- Przechodzimy do pierwszego 'Apply' wedle wzorca: terraform fmt -recursive → terraform validate → terraform plan → terraform apply
