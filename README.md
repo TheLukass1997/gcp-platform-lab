@@ -14,8 +14,7 @@ Projekt realizowany w ramach programu rozwoju DevOps.
 
 - `infra/modules` - moduły Terraform
 - `infra/environments` - definicje środowisk
-- `docs/decisions` - ADR-y i decyzje projektowe
-- `docs/diagrams` - diagramy architektury
+- `docs` - notatki z poszczególnych modułów
 
 ## Status
 
