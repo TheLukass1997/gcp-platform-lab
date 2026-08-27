@@ -77,3 +77,14 @@ infra/modules/service_accounts/<plik>.tf
 ```
 
 - Przechodzimy do pierwszego 'Apply' wedle wzorca: terraform fmt -recursive → terraform validate → terraform plan → terraform apply
+
+- CO ZOSTANIE UTWORZONE?
+
+1. Potrzebne API (Terraform, IAM, Workload Identity Federation, VM, VPC, Cloud NAT) - czyli interfejs do zarządzania usługą GCP
+1. Service Account dla Terraform (terraform-sa). Powstanie: terraform-sa@lbobak-gcp-platform-lab-dev.iam.gserviceaccount.com to będzie konto używane później przez: GitHub Actions → OIDC → terraform-sa → GCP. - To konto, którego używa Terraform do tworzenia zasobów w GCP. Terraform nie powinien działać na Twoim koncie osobistym. Zamiast tego używa dedykowanego Service Account i otrzymuje odpowiednie role (Compute Admin, Network Admin, Service Account Admin)
+1. Service Account dla VM (vm-platform-sa). - To konto przypisywane do maszyny wirtualnej. Zamiast trzymać hasła w aplikacji, VM "dziedziczy" uprawnienia przypisane w Service Account.
+```text
+Service Account to techniczne konto używane przez aplikacje, Terraform, VM, Cloud Run i inne usługi GCP do uwierzytelniania i wykonywania operacji zgodnie z przypisanymi uprawnieniami IAM. 
+- terraform-sa zarządza infrastrukturą 
+- vm-platform-sa jest używane przez maszyny wirtualne do wykonywania swoich zadań.
+```
