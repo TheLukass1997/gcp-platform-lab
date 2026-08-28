@@ -27,3 +27,14 @@ module "network" {
 
   subnet_cidr = "10.10.0.0/24"
 }
+
+module "nat" {
+  source = "../../modules/nat"
+
+  project_id = var.project_id
+  region     = var.region
+
+  network_id = module.network.network_id
+
+  router_name = "platform-router"
+}
