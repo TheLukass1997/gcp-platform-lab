@@ -88,3 +88,21 @@ Service Account to techniczne konto używane przez aplikacje, Terraform, VM, Clo
 - terraform-sa zarządza infrastrukturą 
 - vm-platform-sa jest używane przez maszyny wirtualne do wykonywania swoich zadań.
 ```
+
+### 6. Konfiguracja sieci
+
+Od sieci wszystkie dalsze komponenty będą zależeć, dlatego od niej zaczynam.
+
+VM → Subnet
+
+Firewall → VPC
+
+Kubernetes → VPC
+
+Monitoring → VPC
+
+Zostało utworzone:
+network_name = "platform-vpc"
+project_id = "lbobak-gcp-platform-lab-dev"
+region = "europe-central2"
+subnet_name = "platform-subnet"
