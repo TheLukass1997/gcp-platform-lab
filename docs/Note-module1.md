@@ -106,3 +106,28 @@ network_name = "platform-vpc"
 project_id = "lbobak-gcp-platform-lab-dev"
 region = "europe-central2"
 subnet_name = "platform-subnet"
+
+### 7. Konfiguracja routera
+
+Router jest fundamentem pod NAT. 
+
+platform-vpc -> platform-router -> platform-nat -> private vm
+
+router_name = "platform-router"
+subnet_name = "platform-subnet"
+
+```text
+Po tych krokach 7 punktach jest już utworzone:
+✅ APIs
+✅ Service Accounts
+✅ VPC
+✅ Subnet
+✅ Cloud Router
+```
+
+### 8. Konfiguracja NAT
+
+platform-vpc -> platform-subnet -> platform-router -> platform-nat -> Internet
+
+Dzięki NAT późniejsza VM będzie mogła działać bez publicznego IP.
+
