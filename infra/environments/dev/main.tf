@@ -62,6 +62,7 @@ module "compute" {
   service_account_email = module.service_accounts.vm_sa_email
 }
 
+#oidc module for github actions TEST
 module "oidc" {
   source = "../../modules/oidc"
 

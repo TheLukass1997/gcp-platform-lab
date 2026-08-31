@@ -212,3 +212,5 @@ Efekt końcowy:
 git push → GitHub Actions → Terraform Plan → Approval → Terraform Apply → GCP
 
 Cała infrastruktura może zostać odtworzona bez wykonywania ręcznych operacji w konsoli Google Cloud.
+
+TEST GITHUB ACTION
