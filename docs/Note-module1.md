@@ -143,6 +143,7 @@ Została zbudowana warstwa bezpieczeństwa sieciowego. 3 reguły:
 ## 10. Tworzenie VM
 
 1. Parametry VM:
+
 - nazwa VM: platform-admin-01
 - typ maszyny: e2-medium
 - parametry: 2 vCPU/4 GB RAM
@@ -150,14 +151,19 @@ Została zbudowana warstwa bezpieczeństwa sieciowego. 3 reguły:
 - dzięki Router + NAT maszyna nie potrzebuje publicznego IP
 
 2. Uruchomienie VM:
+
 - Sprawdzenie czy VM została utworzona:
+
 ```powershell
 gcloud compute instances list
 ```
+
 ```powershell
 gcloud compute instances describe platform-admin-01 --zone=europe-central2-a
 ```
+
 - Pierwsze zalogowanie do VM (ponieważ nie ma ona publicznego IP, należy użyć IAP)
+
 ```powershell
 gcloud compute ssh platform-admin-01 `
   --zone=europe-central2-a `
