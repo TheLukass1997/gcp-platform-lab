@@ -17,3 +17,7 @@ output "subnet_name" {
 output "router_name" {
   value = module.nat.router_name
 }
+
+output "firewall_ssh_rule" {
+  value = module.firewall.ssh_rule
+}
