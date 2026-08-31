@@ -61,3 +61,14 @@ module "compute" {
 
   service_account_email = module.service_accounts.vm_sa_email
 }
+
+module "oidc" {
+  source = "../../modules/oidc"
+
+  project_id     = var.project_id
+  project_number = "20594777344"
+
+  github_repository = "TheLukass1997/gcp-platform-lab"
+
+  terraform_sa_email = module.service_accounts.terraform_sa_email
+}

@@ -142,8 +142,73 @@ Została zbudowana warstwa bezpieczeństwa sieciowego. 3 reguły:
 
 ## 10. Tworzenie VM
 
+1. Parametry VM:
 - nazwa VM: platform-admin-01
 - typ maszyny: e2-medium
 - parametry: 2 vCPU/4 GB RAM
 - dysk: 30 GB/pd-balanced
 - dzięki Router + NAT maszyna nie potrzebuje publicznego IP
+
+2. Uruchomienie VM:
+- Sprawdzenie czy VM została utworzona:
+```powershell
+gcloud compute instances list
+```
+```powershell
+gcloud compute instances describe platform-admin-01 --zone=europe-central2-a
+```
+- Pierwsze zalogowanie do VM (ponieważ nie ma ona publicznego IP, należy użyć IAP)
+```powershell
+gcloud compute ssh platform-admin-01 `
+  --zone=europe-central2-a `
+  --tunnel-through-iap
+```
+
+## 11. Konfiguracja OIDC i GitHub Actions
+
+Cel: całkowite wyeliminowanie logowania z wykorzystaniem plików JSON oraz przeniesienie wdrożeń do GitHub Actions.
+
+Architektura:
+
+GitHub Actions → OIDC Token → Workload Identity Federation → terraform-sa → GCP
+
+Dzięki temu workflow GitHub może uwierzytelniać się w GCP bez przechowywania długoterminowych sekretów.
+
+Zostały utworzone:
+
+- Workload Identity Pool (*github-pool*) - punkt integracji pomiędzy GitHub i GCP
+- Workload Identity Provider (*github-provider*) - provider OIDC dla GitHub Actions
+- Powiązanie repozytorium GitHub z kontem *terraform-sa*
+- Uprawnienie *roles/iam.workloadIdentityUser* umożliwiające przejęcie tożsamości konta Terraform przez GitHub Actions
+
+Korzyści:
+
+- brak plików service-account.json
+- brak ręcznego logowania z laptopa
+- bezpieczniejsze zarządzanie dostępem
+- zgodność z aktualnymi rekomendacjami Google Cloud
+
+## 12. Konfiguracja GitHub Actions
+
+Został utworzony pipeline CI/CD odpowiedzialny za walidację i wdrażanie infrastruktury Terraform.
+
+Workflow Pull Request:
+
+- terraform fmt
+- terraform validate
+- terraform plan
+
+Pozwala zweryfikować poprawność zmian przed połączeniem z gałęzią główną.
+
+Workflow Main:
+
+- approval
+- terraform apply
+
+Po zatwierdzeniu zmian infrastruktura jest wdrażana automatycznie do GCP.
+
+Efekt końcowy:
+
+git push → GitHub Actions → Terraform Plan → Approval → Terraform Apply → GCP
+
+Cała infrastruktura może zostać odtworzona bez wykonywania ręcznych operacji w konsoli Google Cloud.

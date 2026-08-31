@@ -29,3 +29,7 @@ output "instance_name" {
 output "private_ip" {
   value = module.compute.private_ip
 }
+
+output "workload_identity_provider" {
+  value = module.oidc.workload_identity_provider
+}
