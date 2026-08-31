@@ -218,3 +218,22 @@ Efekt końcowy:
 git push → GitHub Actions → Terraform Plan → Approval → Terraform Apply → GCP
 
 Cała infrastruktura może zostać odtworzona bez wykonywania ręcznych operacji w konsoli Google Cloud.
+
+## 13. Konfiguracja Terraform Plan Workflow
+
+Został utworzony pierwszy workflow GitHub Actions odpowiedzialny za walidację infrastruktury.
+
+Etapy workflow:
+
+- Checkout Repository
+- Authenticate to Google Cloud
+- Terraform Init
+- Terraform Fmt
+- Terraform Validate
+- Terraform Plan
+
+Workflow uruchamia się automatycznie po zmianach w repozytorium i pozwala wykryć błędy przed wdrożeniem infrastruktury.
+
+Efekt końcowy:
+
+git push → GitHub Actions → Terraform Validate → Terraform Plan → Review zmian
