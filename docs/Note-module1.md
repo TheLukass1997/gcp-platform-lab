@@ -127,7 +127,13 @@ Po tych krokach 7 punktach jest już utworzone:
 
 ### 8. Konfiguracja NAT
 
-platform-vpc -> platform-subnet -> platform-router -> platform-nat -> Internet
+platform-vpc -> Private IP -> platform-subnet -> platform-router -> platform-nat -> Internet
 
 Dzięki NAT późniejsza VM będzie mogła działać bez publicznego IP.
 
+### 9. Konfiguracja firewalla
+
+Została zbudowana warstwa bezpieczeństwa sieciowego. 3 reguły:
+- Reguła 1 - *allow-ssh* - Został otwarty port 22/TCP, który pozwoli się połączyć z VM przez SSH
+- Reguła 2 - *allow-internal* - Pozwala na komunikację wewnątrz: 10.10.0.0/24. Potrzebny do kubernetesa aby moduły mogły ze sobą rozmawiać: Monitoring VM ↔ Kubernetes Master ↔ Kubernetes Worker
+- Reguła 3 - *allow-node-exporter* - Został otwarty port Port: 9100/TCP pod późniejszy monitoring: Prometheus -> Node Exporter
