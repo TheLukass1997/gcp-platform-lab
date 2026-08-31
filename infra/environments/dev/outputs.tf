@@ -21,3 +21,11 @@ output "router_name" {
 output "firewall_ssh_rule" {
   value = module.firewall.ssh_rule
 }
+
+output "instance_name" {
+  value = module.compute.instance_name
+}
+
+output "private_ip" {
+  value = module.compute.private_ip
+}
