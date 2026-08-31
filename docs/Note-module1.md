@@ -143,6 +143,7 @@ Została zbudowana warstwa bezpieczeństwa sieciowego. 3 reguły:
 ## 10. Tworzenie VM
 
 1. Parametry VM:
+
 - nazwa VM: platform-admin-01
 - typ maszyny: e2-medium
 - parametry: 2 vCPU/4 GB RAM
@@ -150,14 +151,19 @@ Została zbudowana warstwa bezpieczeństwa sieciowego. 3 reguły:
 - dzięki Router + NAT maszyna nie potrzebuje publicznego IP
 
 2. Uruchomienie VM:
+
 - Sprawdzenie czy VM została utworzona:
+
 ```powershell
 gcloud compute instances list
 ```
+
 ```powershell
 gcloud compute instances describe platform-admin-01 --zone=europe-central2-a
 ```
+
 - Pierwsze zalogowanie do VM (ponieważ nie ma ona publicznego IP, należy użyć IAP)
+
 ```powershell
 gcloud compute ssh platform-admin-01 `
   --zone=europe-central2-a `
@@ -212,3 +218,22 @@ Efekt końcowy:
 git push → GitHub Actions → Terraform Plan → Approval → Terraform Apply → GCP
 
 Cała infrastruktura może zostać odtworzona bez wykonywania ręcznych operacji w konsoli Google Cloud.
+
+## 13. Konfiguracja Terraform Plan Workflow
+
+Został utworzony pierwszy workflow GitHub Actions odpowiedzialny za walidację infrastruktury.
+
+Etapy workflow:
+
+- Checkout Repository
+- Authenticate to Google Cloud
+- Terraform Init
+- Terraform Fmt
+- Terraform Validate
+- Terraform Plan
+
+Workflow uruchamia się automatycznie po zmianach w repozytorium i pozwala wykryć błędy przed wdrożeniem infrastruktury.
+
+Efekt końcowy:
+
+git push → GitHub Actions → Terraform Validate → Terraform Plan → Review zmian
