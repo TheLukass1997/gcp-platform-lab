@@ -1,0 +1,17 @@
+---
+- name: Update apt cache
+  apt:
+    update_cache: true
+
+- name: Install unattended-upgrades
+  apt:
+    name:
+      - unattended-upgrades
+      - apt-listchanges
+    state: present
+
+- name: Enable unattended-upgrades
+  service:
+    name: unattended-upgrades
+    enabled: true
+    state: started

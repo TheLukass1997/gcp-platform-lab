@@ -18,4 +18,7 @@ Projekt realizowany w ramach programu rozwoju DevOps.
 
 ## Status
 
-Moduł 1 w trakcie realizacji
+Moduł 1 - T1 - DONE
+Moduł 1 - T2 - IN PROGRESS
+Moduł 1 - T3 - TO DO
+Moduł 1 - T4 - TO DO

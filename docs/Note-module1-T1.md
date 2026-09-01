@@ -1,4 +1,6 @@
-# Notatki do modułu 1
+# Notatki do modułu 1 - T1
+
+<https://github.com/TheLukass1997/devops-advanced-blackbox/tree/main/modules/m1-cloud-linux>
 
 ## 1. Włączenie wymaganych serwisów GCP
 
@@ -219,7 +221,7 @@ git push → GitHub Actions → Terraform Plan → Approval → Terraform Apply 
 
 Cała infrastruktura może zostać odtworzona bez wykonywania ręcznych operacji w konsoli Google Cloud.
 
-## 13. Konfiguracja Terraform Plan Workflow
+## 13. Konfiguracja Terraform Plan i Apply Workflow
 
 Został utworzony pierwszy workflow GitHub Actions odpowiedzialny za walidację infrastruktury.
 
@@ -231,9 +233,10 @@ Etapy workflow:
 - Terraform Fmt
 - Terraform Validate
 - Terraform Plan
+- Terraform Apply
 
 Workflow uruchamia się automatycznie po zmianach w repozytorium i pozwala wykryć błędy przed wdrożeniem infrastruktury.
 
 Efekt końcowy:
 
-git push → GitHub Actions → Terraform Validate → Terraform Plan → Review zmian
+git push → GitHub Actions → Terraform Validate → Terraform Plan → Review zmian → Merge → Terraform Apply
