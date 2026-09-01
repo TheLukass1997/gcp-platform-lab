@@ -1,0 +1,7 @@
+---
+- name: Linux Hardening
+  hosts: all
+  become: true
+
+  roles:
+    - updates
