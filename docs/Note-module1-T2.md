@@ -110,3 +110,7 @@ Dlaczego:
 - Ansible potrzebuje znać adres hosta zarządzanego
 - VM znajduje się w prywatnej sieci VPC
 - dalsza konfiguracja będzie wykonywana z wykorzystaniem SSH
+
+```text
+Ansible ignoruje plik `ansible.cfg`, jeżeli repozytorium znajduje się w katalogu montowanym z Windows:
+```
