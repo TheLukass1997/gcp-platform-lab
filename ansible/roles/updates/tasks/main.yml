@@ -1,17 +1,17 @@
 ---
 - name: Update apt cache
-  apt:
+  ansible.builtin.apt:
     update_cache: true
 
 - name: Install unattended-upgrades
-  apt:
+  ansible.builtin.apt:
     name:
       - unattended-upgrades
       - apt-listchanges
     state: present
 
 - name: Enable unattended-upgrades
-  service:
+  ansible.builtin.service:
     name: unattended-upgrades
-    enabled: true
     state: started
+    enabled: true

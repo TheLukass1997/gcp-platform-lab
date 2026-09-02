@@ -1,2 +1,2 @@
 [admin]
-platform-admin-01
+platform-admin-01 ansible_host=127.0.0.1 ansible_port=2222 ansible_user=lukasz ansible_ssh_private_key_file=~/.ssh/google_compute_engine
