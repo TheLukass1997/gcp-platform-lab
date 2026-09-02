@@ -1,0 +1,36 @@
+<<<<<<< HEAD
+---
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Install unattended-upgrades
+  ansible.builtin.apt:
+    name:
+      - unattended-upgrades
+      - apt-listchanges
+    state: present
+
+- name: Enable unattended-upgrades
+  ansible.builtin.service:
+    name: unattended-upgrades
+    state: started
+=======
+---
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Install unattended-upgrades
+  ansible.builtin.apt:
+    name:
+      - unattended-upgrades
+      - apt-listchanges
+    state: present
+
+- name: Enable unattended-upgrades
+  ansible.builtin.service:
+    name: unattended-upgrades
+    state: started
+>>>>>>> ec87ff2a455e6c8c95b8be761f6af7ab38c4934d
+    enabled: true
