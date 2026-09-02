@@ -114,3 +114,19 @@ Dlaczego:
 ```text
 Ansible ignoruje plik `ansible.cfg`, jeżeli repozytorium znajduje się w katalogu montowanym z Windows:
 ```
+
+### Ansible Connectivity
+
+VM nie posiada publicznego IP.
+
+Połączenie realizowane jest przez IAP Tunnel:
+
+WSL → localhost:2222 → IAP Tunnel → platform-admin-01
+
+Uruchomienie tunelu:
+
+```bash
+gcloud compute start-iap-tunnel platform-admin-01 22 \
+  --local-host-port=localhost:2222 \
+  --zone=europe-central2-a
+```
