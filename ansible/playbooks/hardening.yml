@@ -5,3 +5,5 @@
 
   roles:
     - updates
+    - ssh
+    - firewall
