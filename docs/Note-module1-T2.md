@@ -130,3 +130,46 @@ gcloud compute start-iap-tunnel platform-admin-01 22 \
   --local-host-port=localhost:2222 \
   --zone=europe-central2-a
 ```
+
+### 5. SSH Hardening
+
+Zmodyfikowano parametr SSH:
+
+1.
+
+MaxAuthTries 3
+
+Dlaczego:
+
+- ograniczenie liczby nieudanych prób logowania
+- utrudnienie ataków brute-force
+- szybsze zrywanie niepoprawnych sesji uwierzytelnienia
+
+Wdrożenie:
+
+Ansible → role ssh
+
+Weryfikacja:
+
+sudo grep MaxAuthTries /etc/ssh/sshd_config
+
+Efekt:
+
+Po trzech nieudanych próbach logowania połączenie SSH zostaje zamknięte przez serwer.
+
+2.
+
+- ClientAliveInterval 120 - co 120 sekund serwer sprawdza, czy klient SSH nadal odpowiada.
+- ClientAliveCountMax 2 - po dwóch nieudanych odpowiedziach klient jest rozłączany.
+
+Dzięki temu redukujemy ryzyko nagromadzenia nieaktywnych sesji SSH.
+
+### 6. Instalacja UFW (Uncomplicated Firewall)
+
+Wdrożono lokalny firewall systemowy UFW za pomocą Ansible.
+
+Weryfikacja:
+
+```bash
+sudo ufw status verbose
+```
