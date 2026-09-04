@@ -157,7 +157,7 @@ Efekt:
 
 Po trzech nieudanych próbach logowania połączenie SSH zostaje zamknięte przez serwer.
 
-2.
+1.
 
 - ClientAliveInterval 120 - co 120 sekund serwer sprawdza, czy klient SSH nadal odpowiada.
 - ClientAliveCountMax 2 - po dwóch nieudanych odpowiedziach klient jest rozłączany.
@@ -173,3 +173,129 @@ Weryfikacja:
 ```bash
 sudo ufw status verbose
 ```
+
+### 7. Aliasy
+
+Wytworzyłem aliasy w WSL komendą *nano ~/.bashrc*
+
+```bash
+# Aliases
+alias vm1='gcloud compute ssh platform-admin-01 --zone=europe-central2-a --tunnel-through-iap'
+alias vm2='gcloud compute ssh monitoring-01 --zone=europe-central2-a --tunnel-through-iap'
+alias vm3='gcloud compute ssh k8s-master-01 --zone=europe-central2-a --tunnel-through-iap'
+alias iap='gcloud compute start-iap-tunnel platform-admin-01 22 --local-host-port=localhost:2222 --zone=europe-central2-a'
+```
+
+### 8. Weryfikacja parametrów sysctl (network hardening)
+
+Zweryfikowano podstawowe parametry jądra odpowiedzialne za bezpieczeństwo sieciowe.
+
+Sprawdzone ustawienia:
+
+net.ipv4.ip_forward
+net.ipv4.conf.all.accept_redirects
+net.ipv4.conf.default.accept_redirects
+net.ipv4.conf.all.send_redirects
+net.ipv4.conf.default.send_redirects
+net.ipv4.conf.all.accept_source_route
+net.ipv4.conf.default.accept_source_route
+
+Wynik:
+
+ip_forward = 0
+
+accept_redirects = 0
+send_redirects = 0
+
+accept_source_route = 0
+
+Dlaczego:
+
+- VM nie pełni roli routera
+- ograniczenie możliwości manipulacji trasowaniem pakietów
+- zgodność z dobrymi praktykami hardeningu oraz CIS-lite
+
+Wniosek:
+
+Nie były wymagane dodatkowe zmiany konfiguracji. Domyślne ustawienia Debian 12 są zgodne z oczekiwanym poziomem bezpieczeństwa dla platform-admin-01.
+
+### 9. Utworzenie Auditd
+
+**Cel:**
+
+Rejestrowanie zmian w krytycznych elementach systemu. Np.:
+
+- Kto usunął plik?
+- Kto dodał użytkownika?
+- Kto zmienił sudoers?
+- Kto próbował użyć sudo?
+
+**Dlaczego?**
+
+Umożliwia określenie:
+
+- kto wykonał zmianę
+- kiedy została wykonana
+- jaki plik został zmodyfikowany
+
+**Monitorowane obszary:**
+
+- /etc/passwd  - tworzenie/usuwanie użytkowników
+- /etc/group   - uprawnienia grup
+- /etc/shadow  - hasła
+- /etc/sudoers - eskalacja uprawnień
+- /etc/ssh/sshd_config - dostęp do systemu
+
+**Konfiguracja i testy Auditd**
+
+Wdrożono usługę auditd odpowiedzialną za rejestrowanie operacji wykonywanych na kluczowych elementach systemu.
+
+Skonfigurowane reguły:
+
+- /etc/passwd
+- /etc/group
+- /etc/shadow
+- /etc/sudoers
+- /etc/ssh/sshd_config
+
+Klucze audytu:
+
+- identity
+- privilege
+- ssh
+
+Weryfikacja:
+
+sudo auditctl -l
+
+Testy:
+
+1. Modyfikacja pliku sshd_config
+2. Modyfikacja pliku passwd
+3. Utworzenie użytkownika testowego
+4. Usunięcie użytkownika testowego
+
+Analiza zdarzeń:
+
+sudo ausearch -k ssh
+
+sudo ausearch -k identity
+
+Wynik:
+
+Auditd poprawnie rejestruje zmiany wykonywane na krytycznych plikach systemowych oraz operacje związane z zarządzaniem użytkownikami.
+
+Status usługi:
+
+sudo systemctl status auditd
+
+Wynik:
+
+auditd.service - active (running)
+
+Korzyści:
+
+- możliwość śledzenia zmian administracyjnych
+- wsparcie procesu analizy incydentów bezpieczeństwa
+- identyfikacja nieautoryzowanych zmian konfiguracji
+- podstawa dla przyszłego monitoringu i alertowania

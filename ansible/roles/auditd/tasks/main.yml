@@ -1,0 +1,42 @@
+---
+- name: Install auditd
+  ansible.builtin.apt:
+    name:
+      - auditd
+      - audispd-plugins
+    state: present
+
+- name: Audit passwd changes
+  ansible.builtin.lineinfile:
+    path: /etc/audit/rules.d/hardening.rules
+    line: '-w /etc/passwd -p wa -k identity'
+    create: true
+  notify: Restart auditd
+
+- name: Audit group changes
+  ansible.builtin.lineinfile:
+    path: /etc/audit/rules.d/hardening.rules
+    line: '-w /etc/group -p wa -k identity'
+    create: true
+  notify: Restart auditd
+
+- name: Audit shadow changes
+  ansible.builtin.lineinfile:
+    path: /etc/audit/rules.d/hardening.rules
+    line: '-w /etc/shadow -p wa -k identity'
+    create: true
+  notify: Restart auditd
+
+- name: Audit sudoers changes
+  ansible.builtin.lineinfile:
+    path: /etc/audit/rules.d/hardening.rules
+    line: '-w /etc/sudoers -p wa -k privilege'
+    create: true
+  notify: Restart auditd
+
+- name: Audit sshd_config changes
+  ansible.builtin.lineinfile:
+    path: /etc/audit/rules.d/hardening.rules
+    line: '-w /etc/ssh/sshd_config -p wa -k ssh'
+    create: true
+  notify: Restart auditd
