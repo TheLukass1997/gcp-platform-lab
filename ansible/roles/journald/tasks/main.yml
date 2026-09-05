@@ -1,0 +1,22 @@
+---
+- name: Create journal directory
+  ansible.builtin.file:
+    path: /var/log/journal
+    state: directory
+    owner: root
+    group: systemd-journal
+    mode: "2755"
+
+- name: Configure journald
+  ansible.builtin.blockinfile:
+    path: /etc/systemd/journald.conf
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
+    block: |
+      [Journal]
+      Storage=persistent
+      SystemMaxUse=500M
+      RuntimeMaxUse=100M
+      MaxRetentionSec=1month
+      Compress=yes
+  notify:
+    - Restart systemd-journald
