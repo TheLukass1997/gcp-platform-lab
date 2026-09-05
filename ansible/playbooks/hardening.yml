@@ -8,3 +8,5 @@
     - ssh
     - firewall
     - auditd
+    - journald
+    - sysctl

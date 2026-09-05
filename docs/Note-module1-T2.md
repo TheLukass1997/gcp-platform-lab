@@ -299,3 +299,32 @@ Korzyści:
 - wsparcie procesu analizy incydentów bezpieczeństwa
 - identyfikacja nieautoryzowanych zmian konfiguracji
 - podstawa dla przyszłego monitoringu i alertowania
+
+### 10. Konfiguracja Systemd Journald
+
+Skonfigurowano usługę systemd-journald odpowiedzialną za przechowywanie logów systemowych.
+
+Wdrożone ustawienia:
+
+- Storage=persistent
+- SystemMaxUse=500M
+- RuntimeMaxUse=100M
+- MaxRetentionSec=1month
+- Compress=yes
+
+Dlaczego:
+
+- zachowanie logów po restarcie systemu
+- kontrola wykorzystania przestrzeni dyskowej
+- ograniczenie niekontrolowanego wzrostu logów
+- przygotowanie środowiska pod analizę incydentów i troubleshooting
+
+Weryfikacja:
+
+sudo journalctl --disk-usage
+
+sudo systemctl status systemd-journald
+
+Efekt:
+
+Logi systemowe są przechowywane w sposób trwały, podlegają kompresji oraz posiadają zdefiniowaną retencję i limity zajmowanej przestrzeni.
