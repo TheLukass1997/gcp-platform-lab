@@ -72,3 +72,19 @@ module "oidc" {
 
   terraform_sa_email = module.service_accounts.terraform_sa_email
 }
+
+module "monitoring" {
+  source = "../../modules/compute"
+
+  project_id = var.project_id
+
+  zone = "europe-central2-a"
+
+  instance_name = "monitoring-01"
+
+  machine_type = "e2-medium"
+
+  subnetwork = module.network.subnet_name
+
+  service_account_email = module.service_accounts.vm_sa_email
+}
