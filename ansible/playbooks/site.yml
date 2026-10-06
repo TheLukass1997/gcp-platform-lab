@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: true
+
+  roles:
+    - users
+    - ssh
+    - firewall
+    - sysctl
+    - journald
+    - auditd
+    - updates

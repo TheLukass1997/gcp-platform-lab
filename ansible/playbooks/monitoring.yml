@@ -1,0 +1,13 @@
+---
+- hosts: admin
+  become: true
+
+  roles:
+    - node_exporter
+
+- hosts: monitoring
+  become: true
+
+  roles:
+    - prometheus
+    - grafana

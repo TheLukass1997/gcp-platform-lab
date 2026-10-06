@@ -51,7 +51,12 @@ Dlaczego:
 
 ### 2. Instalacja i przygotowanie Ansible
 
-Ansible został uruchomiony z lokalnego środowiska WSL.
+Ansible został uruchomiony z lokalnego środowiska WSL. Aby dostać się do tego konkretnego repo, można wejść do konsoli wsl i w niej wpisać poniższe komendy, które od razu otworzą prawidłową ścieżkę z prawidłowym repo:
+
+```bash
+cd ~/projects/gcp-platform-lab
+code .
+```
 
 Model działania:
 

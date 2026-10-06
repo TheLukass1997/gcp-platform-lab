@@ -20,5 +20,5 @@ Projekt realizowany w ramach programu rozwoju DevOps.
 
 - Moduł 1 - T1 - DONE
 - Moduł 1 - T2 - DONE
-- Moduł 1 - T3 - IN PROGRESS
-- Moduł 1 - T4 - TO DO
+- Moduł 1 - T3 - DONE
+- Moduł 1 - T4 - IN PROGRESS
