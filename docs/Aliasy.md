@@ -14,10 +14,11 @@ alias mon-start='gcloud compute instances start monitoring-01 --zone=europe-cent
 alias mon-stop='gcloud compute instances stop monitoring-01 --zone=europe-central2-a'
 
 # Ansible comments
-alias iap='gcloud compute start-iap-tunnel platform-admin-01 22 --local-host-port=localhost:2222 --zone=europe-central2-a'
+alias iap-admin='gcloud compute start-iap-tunnel platform-admin-01 22 --local-host-port=localhost:2222 --zone=europe-central2-a'
+alias iap-mon='gcloud compute start-iap-tunnel monitoring-01 22 --local-host-port=localhost:2223 --zone=europe-central2-a'
+
 alias hardening='cd ~/projects/gcp-platform-lab/ansible && ansible-playbook playbooks/hardening.yml'
 
 # Grafana
-
-alias grafana='gcloud compute ssh monitoring-01 --zone=europe-central2-a --tunnel-through-iap -- -L 3000:localhost:3000' ---> Następnie w przeglądarce http://localhost:3000
+alias grafana='gcloud compute ssh monitoring-01 --zone=europe-central2-a --tunnel-through-iap -- -L 3000:localhost:3000'
 ```
